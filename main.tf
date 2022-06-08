@@ -20,16 +20,16 @@ resource "vsphere_virtual_machine" "master" {
   }
   vapp {
     properties = {
-      "guestinfo.ves.regurl" = "ves.volterra.io"
+      "guestinfo.ves.regurl" = var.virtual_machine_vapp.regurl
       "guestinfo.ves.certifiedhardware" = var.virtual_machine_vapp.certifiedhardware
       "guestinfo.ves.token" = var.virtual_machine_vapp.token
       "guestinfo.ves.latitude" = var.virtual_machine_vapp.latitude
       "guestinfo.ves.longitude" = var.virtual_machine_vapp.longitude
       "guestinfo.ves.clustername" = var.virtual_machine_vapp.clustername
       "guestinfo.hostname" = "${format("${var.virtual_machine_template.master_name_prefix}%d", count.index)}"
-      "guestinfo.interface.0.name" = "eth0"
+      "guestinfo.interface.0.name" = var.virtual_machine_vapp.interface_name
       "guestinfo.interface.0.dhcp" = var.virtual_machine_vapp.interface_dhcp
-      "guestinfo.interface.0.role" = "public"
+      "guestinfo.interface.0.role" = var.virtual_machine_vapp.interface_role
       "guestinfo.interface.0.ip.0.address" = "${cidrhost(var.virtual_machine_vapp.interface_subnet, var.virtual_machine_vapp.master_hostnum+count.index)}/${element(split("/", var.virtual_machine_vapp.interface_subnet), 1)}"
       "guestinfo.interface.0.route.0.destination" = var.virtual_machine_vapp.route
       "guestinfo.interface.0.route.0.gateway" = var.virtual_machine_vapp.gateway
@@ -69,16 +69,16 @@ resource "vsphere_virtual_machine" "worker" {
   }
   vapp {
     properties = {
-      "guestinfo.ves.regurl" = "ves.volterra.io"
+      "guestinfo.ves.regurl" = var.virtual_machine_vapp.regurl
       "guestinfo.ves.certifiedhardware" = var.virtual_machine_vapp.certifiedhardware
       "guestinfo.ves.token" = var.virtual_machine_vapp.token
       "guestinfo.ves.latitude" = var.virtual_machine_vapp.latitude
       "guestinfo.ves.longitude" = var.virtual_machine_vapp.longitude
       "guestinfo.ves.clustername" = var.virtual_machine_vapp.clustername
       "guestinfo.hostname" = "${format("${var.virtual_machine_template.worker_name_prefix}%d", count.index)}"
-      "guestinfo.interface.0.name" = "eth0"
+      "guestinfo.interface.0.name" = var.virtual_machine_vapp.interface_name
       "guestinfo.interface.0.dhcp" = var.virtual_machine_vapp.interface_dhcp
-      "guestinfo.interface.0.role" = "public"
+      "guestinfo.interface.0.role" = var.virtual_machine_vapp.interface_role
       "guestinfo.interface.0.ip.0.address" = "${cidrhost(var.virtual_machine_vapp.interface_subnet, var.virtual_machine_vapp.worker_hostnum+count.index)}/${element(split("/", var.virtual_machine_vapp.interface_subnet), 1)}"
       "guestinfo.interface.0.route.0.destination" = var.virtual_machine_vapp.route
       "guestinfo.interface.0.route.0.gateway" = var.virtual_machine_vapp.gateway
