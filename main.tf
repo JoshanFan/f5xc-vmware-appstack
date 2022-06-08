@@ -106,12 +106,23 @@ resource "volterra_voltstack_site" "cluster" {
     default_interface_config = true
     no_network_policy = true
     no_forward_proxy = true
-    no_global_network = true
+    global_network_list {
+      global_network_connections {
+        slo_to_global_dr {
+          global_vn {
+            name = "joshan-global-vn"
+          }
+        }
+      }
+    }
     vip_vrrp_mode = "VIP_VRRP_ENABLE"
   }
   coordinates {
     latitude = var.virtual_machine_vapp.latitude
     longitude = var.virtual_machine_vapp.longitude
+  }
+  lifecycle {
+    ignore_changes = [labels]
   }
   depends_on = [vsphere_virtual_machine.master, vsphere_virtual_machine.worker]
 }
