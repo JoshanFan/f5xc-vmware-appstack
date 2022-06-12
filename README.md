@@ -18,4 +18,4 @@ The F5 Distributed Cloud terraform modules, you can refer to https://registry.te
 
 ## Resources
 - Create VMware Site: https://docs.cloud.f5.com/docs/how-to/site-management/create-vmw-site
-- VMWare Images: https://docs.cloud.f5.com/docs/images/node-vmware-images#vmware-images
+- VMware Images: https://docs.cloud.f5.com/docs/images/node-vmware-images#vmware-images
