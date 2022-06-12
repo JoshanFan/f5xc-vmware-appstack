@@ -43,7 +43,7 @@ variable "virtual_machine_template" {
 
 variable "virtual_machine_vapp" {
   type = map(string)
-  description = "Configuration details for F5 XC customer site"
+  description = "Configuration details for F5 XC node registration"
   default = {
     regurl = "ves.volterra.io"
     certifiedhardware = "vmware-voltstack-combo"
@@ -65,5 +65,16 @@ variable "virtual_machine_vapp" {
     gateway = "10.0.0.254"
     dns0 = "10.10.10.53"
     dns1 = "10.20.20.53"
+  }
+}
+
+variable "appstack_cluster" {
+  type = map(string)
+  description = "Configuration details for F5 XC Appstack cluster"
+  default = {
+    "global_vn" = "global-vn"
+    "outside_vip" = "10.0.0.20"
+    "vip_vrrp_mode" = "VIP_VRRP_ENABLE"
+    "k8s_cluster" = "mk8s"
   }
 }

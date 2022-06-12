@@ -95,7 +95,7 @@ resource "vsphere_virtual_machine" "worker" {
   }
 }
 
-resource "volterra_voltstack_site" "cluster" {
+resource "volterra_voltstack_site" "vm_cluster" {
   name      = var.virtual_machine_vapp.clustername
   namespace = "system"
   volterra_certified_hw = var.virtual_machine_vapp.certifiedhardware
@@ -110,12 +110,16 @@ resource "volterra_voltstack_site" "cluster" {
       global_network_connections {
         slo_to_global_dr {
           global_vn {
-            name = "joshan-global-vn"
+            name = var.appstack_cluster.global_vn
           }
         }
       }
     }
-    vip_vrrp_mode = "VIP_VRRP_ENABLE"
+    outside_vip = var.appstack_cluster.outside_vip
+    vip_vrrp_mode = var.appstack_cluster.vip_vrrp_mode
+  }
+  k8s_cluster {
+    name = var.appstack_cluster.k8s_cluster
   }
   coordinates {
     latitude = var.virtual_machine_vapp.latitude
@@ -129,7 +133,7 @@ resource "volterra_voltstack_site" "cluster" {
 
 resource "time_sleep" "five_minutes" {
   create_duration = "5m"
-  depends_on = [volterra_voltstack_site.cluster]
+  depends_on = [volterra_voltstack_site.vm_cluster]
 }
 
 resource "volterra_registration_approval" "master" {
